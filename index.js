@@ -4,7 +4,7 @@ const { alldown } = require('imon-media-downloader');
 const fs = require('fs');
 
 const callbackDataStore = {};
-const BOT_TOKEN = 'Your-bot-token';
+const BOT_TOKEN = 'Your_Bot_Token';
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
 function removeHashtags(text) {
@@ -19,7 +19,7 @@ bot.onText(/\/start|start@.+/, async (msg) => {
     const chatId = msg.chat.id;
 
     const welcomeMessage = `
-🌟✨ ❝ *Welcome to the Imon All-in-One Video Downloader Bot!* ❞ ✨🌟
+🌟✨ ❝ *Welcome to the Nayan All-in-One Video Downloader Bot!* ❞ ✨🌟
 
 🎥 _Effortlessly download videos from multiple platforms._  
 🔗 _Send me a valid video link, and I’ll do the rest!_
@@ -39,11 +39,11 @@ bot.onText(/\/start|start@.+/, async (msg) => {
 
 ──────────────────────────  
 👨‍💻 *Developer*:  
-   ❝ *Mohammad Imon* ❞  
+   ❝ *Mohammad Nayan* ❞  
 
 📞 *Reach Out*:  
-   🔹 [Facebook](https://www.facebook.com/profile.php?id=100069926588234)  
-   🔹 [Telegram](https://t.me/Farhan_islam12)  
+   🔹 [Facebook](https://www.facebook.com/profile.php?id=100000959749712)  
+   🔹 [Telegram](https://t.me/MOHAMMADNAYAN)  
 
 🚀 *Fast. Reliable. Easy to use.*  
 💡 *Start downloading now and enjoy the convenience!*
@@ -119,14 +119,15 @@ bot.on('callback_query', async (callbackQuery) => {
         const url = type === 'high' ? high : low;
         const loadingMsg = await bot.sendMessage(chatId, `⏳ Sending ${quality} Quality Video...`);
 
-        const vid = (
-        await axios.get(
-          url,
-          { responseType: 'stream' }
-        )
-      ).data;
+        let nayan;
 
-        await bot.sendVideo(chatId, vid, {
+          try {
+              const vidResponse = await axios.get(url, { responseType: 'stream' });
+              nayan = vidResponse?.data || url;
+                } catch (error) {
+                  nayan = url;
+          }
+        await bot.sendVideo(chatId, nayan, {
             caption: `🎬 *Title:* ${title}\n📹 *Quality:* ${quality}`,
             parse_mode: 'Markdown',
         });
@@ -134,7 +135,7 @@ bot.on('callback_query', async (callbackQuery) => {
         bot.deleteMessage(chatId, loadingMsg.message_id);
     } else if (type === 'mp3') {
         const loadingMsg = await bot.sendMessage(chatId, '🎵 Extracting MP3, please wait...');
-        const audioPath = `Imon_${Date.now()}.mp3`;
+        const audioPath = `Nayan_${Date.now()}.mp3`;
 
         try {
             const audioStream = await axios({
@@ -168,4 +169,4 @@ bot.on('callback_query', async (callbackQuery) => {
     delete callbackDataStore[sessionId];
 });
 
-console.log("Imon Telegram Bot Running")
+console.log("Nayan Telegram Bot Running")
